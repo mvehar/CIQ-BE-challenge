@@ -1,6 +1,6 @@
 from datetime import datetime
 from spreadsheets.extensions import db
-from spreadsheets.helpers import generate_uuid
+from spreadsheets.common import generate_uuid
 
 """
     Sheet model for storing sheet data
