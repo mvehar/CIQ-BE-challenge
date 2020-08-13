@@ -12,7 +12,7 @@ class SpreadsheetsTest(TestCase):
 
     def create_app(self):
         config = Config()
-        # config.SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+        config.SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
         config.PRESERVE_CONTEXT_ON_EXCEPTION = False
         config.DEBUG = True
         config.WTF_CSRF_ENABLED = False
