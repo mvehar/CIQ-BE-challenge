@@ -8,6 +8,8 @@ from spreadsheets.resources.SheetResource import SheetResource, SheetsResource
 
     Docs: https://flask-restful.readthedocs.io/en/latest/quickstart.html#endpoints
 """
+
+
 def add_resources(app):
     api.add_resource(SheetsResource, '/spreadsheets')
-    api.add_resource(SheetResource, '/spreadsheets/<id>')
+    api.add_resource(SheetResource, '/spreadsheet/<id>', '/spreadsheet')
