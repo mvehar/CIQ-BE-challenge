@@ -1,8 +1,9 @@
-from flask import Flask, send_from_directory, send_file
+from flask import Flask, send_from_directory
 
 from spreadsheets.api_routes import add_resources
 from spreadsheets.config import Config
 from spreadsheets.extensions import api, db, ma, migrate
+from werkzeug.utils import redirect
 
 DEFAULT_APP_NAME = "spreadsheets"
 
@@ -32,6 +33,8 @@ def create_app(config=None):
 
 def configure_app(app, config):
     app.config.from_object(config)
+
+    app.static_folder = config.STATIC_FOLDER
 
 
 """
@@ -63,18 +66,17 @@ def configure_routes(app):
 
 
 def configure_static(app):
-    @app.route('/js/<path:path>')
-    def send_js(path):
-        return send_from_directory('js', path)
+    @app.route('/static/<path:path>')
+    def send_static(path):
+        print(path)
 
-    pass
+        return send_from_directory('../static/static', path)
 
-    @app.route('/css/<path:path>')
-    def send_css(path):
-        return send_from_directory('css', path)
-
-    pass
+    @app.route('/<path:filename>')
+    def send_general(filename):
+        print(filename)
+        return send_from_directory('../static', filename)
 
     @app.route('/')
     def send_index():
-        return send_file(app.config['STATIC_FOLDER'] + '/index.html')
+        return redirect('/index.html')

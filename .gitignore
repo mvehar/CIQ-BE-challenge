@@ -133,3 +133,4 @@ dmypy.json
 server/ve/
 
 *.db
+/spa-spreadsheet/node_modules/
