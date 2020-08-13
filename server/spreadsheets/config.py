@@ -1,3 +1,8 @@
+"""
+    Configuration object
+
+    Load parameters from env.
+"""
 class Config(object):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///spreadsheets.db"
