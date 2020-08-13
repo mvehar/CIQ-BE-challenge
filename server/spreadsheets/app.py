@@ -1,8 +1,7 @@
-from flask import Flask
-from flask_migrate import MigrateCommand
+from flask import Flask, send_from_directory, send_file
 
-from spreadsheets.config import Config
 from spreadsheets.api_routes import add_resources
+from spreadsheets.config import Config
 from spreadsheets.extensions import api, db, ma, migrate
 
 DEFAULT_APP_NAME = "spreadsheets"
@@ -13,7 +12,7 @@ DEFAULT_APP_NAME = "spreadsheets"
 
 
 def create_app(config=None):
-    app = Flask(DEFAULT_APP_NAME)
+    app = Flask(DEFAULT_APP_NAME, static_url_path='')
 
     if config is None:
         config = Config()
@@ -21,6 +20,7 @@ def create_app(config=None):
     configure_app(app, config)
     configure_extensions(app)
     configure_routes(app)
+    configure_static(app)
 
     return app
 
@@ -55,3 +55,26 @@ def configure_extensions(app):
 
 def configure_routes(app):
     add_resources(app)
+
+
+"""
+    Register STATIC paths
+"""
+
+
+def configure_static(app):
+    @app.route('/js/<path:path>')
+    def send_js(path):
+        return send_from_directory('js', path)
+
+    pass
+
+    @app.route('/css/<path:path>')
+    def send_css(path):
+        return send_from_directory('css', path)
+
+    pass
+
+    @app.route('/')
+    def send_index():
+        return send_file(app.config['STATIC_FOLDER'] + '/index.html')
