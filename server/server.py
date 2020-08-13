@@ -1,11 +1,3 @@
-import flask
-app = flask.Flask(__name__)
+from spreadsheets import create_app
 
-@app.route('/')
-def index():
-    return 'Hello, world!'
-
-
-@app.route('/api')
-def api():
-    return {'message': 'Hello, world!'}
+create_app()
