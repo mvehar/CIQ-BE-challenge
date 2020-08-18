@@ -59,6 +59,13 @@ def configure_extensions(app):
 def configure_routes(app):
     add_resources(app)
 
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+        return response
+
 
 """
     Register STATIC paths

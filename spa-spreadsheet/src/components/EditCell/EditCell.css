@@ -1,0 +1,11 @@
+.EditCell.has-formula {
+    background: beige;
+}
+
+.EditCell.has-error {
+    background: red;
+}
+
+.EditCell.is-edit {
+    background: #c3d8de;
+}
