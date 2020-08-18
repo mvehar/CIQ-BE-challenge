@@ -119,7 +119,6 @@ function generateColLetter(position: number): string {
  * @param index
  */
 function recalculateSheetDisplayData(cells: SpreadsheetDisplayCells, index: number): SpreadsheetDisplayCells {
-    // TODO: Optimally clone the object
     let resolvedCells = cells;
     Object.keys(cells).forEach((columnKey) => {
         Object.keys(cells[columnKey]).forEach((rowKey) => {
@@ -179,31 +178,6 @@ function cleanCellsForApi(cells: SpreadsheetDisplayCells): SpreadsheetCells {
     return cleanCells;
 }
 
-//
-// /**
-//  * Check if cell value is formula (Starts with "=")
-//  * @param cell
-//  */
-// function checkIfValueFormula(cell: number | string | CellDisplay) {
-//     // Extract value
-//     let value;
-//     if (typeof cell === 'object') {
-//         value = cell.value
-//     } else {
-//         value = cell;
-//     }
-//
-//     // empty cell OR number
-//     if (!value || (typeof value === 'number')) {
-//         return value;
-//     }
-//
-//     // Check if formula: starts with "="
-//     if (typeof value === 'string' && value.length > 0 && value.charAt(0) === '=') {
-//         const formula = value.substring(1);
-//
-//     }
-// }
 
 /**
  *
@@ -212,7 +186,7 @@ function cleanCellsForApi(cells: SpreadsheetDisplayCells): SpreadsheetCells {
  * @param index
  * @param depth
  */
-function resolveCell(inputCells: SpreadsheetDisplayCells, cell: CellDisplay | null, index: number, depth: number = 1): [SpreadsheetDisplayCells, null | CellDisplay] {
+function resolveCell(inputCells: SpreadsheetDisplayCells, cell: CellDisplay | null, index: number, depth = 1): [SpreadsheetDisplayCells, null | CellDisplay] {
     if (!cell || depth > 100) {
         return [inputCells, null];
     }
