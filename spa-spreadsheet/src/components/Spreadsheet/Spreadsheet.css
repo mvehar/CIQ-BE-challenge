@@ -1,0 +1,8 @@
+.Spreadsheet-row-head {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.Spreadsheet table td {
+    border: 1px solid #ccc;
+}

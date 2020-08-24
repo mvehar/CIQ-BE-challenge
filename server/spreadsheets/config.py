@@ -12,3 +12,4 @@ class Config(object):
     SQLALCHEMY_ECHO = False
     CACHE_TYPE = "simple"
     CACHE_DEFAULT_TIMEOUT = 300
+    STATIC_FOLDER = '../static'

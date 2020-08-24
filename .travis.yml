@@ -1,10 +1,21 @@
-language: python
-python:
-  - "3.8"
-  - "3.8-dev"  # 3.8 development branch
+jobs:
+    include:
+        -   language: python
+            python:
+                - "3.8"
+                - "3.8-dev"  # 3.8 development branch
 
-install:
-  - pip install -r server/requirements.txt
+            install:
+                - pip install -r server/requirements.txt
 
-script:
-  - python server/test.py -v
+            script:
+                - python server/test.py -v
+
+        -   language: node_js
+            node_js:
+                - "node"
+            script:
+                - "cd spa-spreadsheet"
+                - "yarn"
+                - "yarn lint"
+#                - "yarn test"  - no tests yet

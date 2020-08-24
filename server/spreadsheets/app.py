@@ -1,9 +1,9 @@
-from flask import Flask
-from flask_migrate import MigrateCommand
+from flask import Flask, send_from_directory
 
-from spreadsheets.config import Config
 from spreadsheets.api_routes import add_resources
+from spreadsheets.config import Config
 from spreadsheets.extensions import api, db, ma, migrate
+from werkzeug.utils import redirect
 
 DEFAULT_APP_NAME = "spreadsheets"
 
@@ -13,7 +13,7 @@ DEFAULT_APP_NAME = "spreadsheets"
 
 
 def create_app(config=None):
-    app = Flask(DEFAULT_APP_NAME)
+    app = Flask(DEFAULT_APP_NAME, static_url_path='')
 
     if config is None:
         config = Config()
@@ -21,6 +21,7 @@ def create_app(config=None):
     configure_app(app, config)
     configure_extensions(app)
     configure_routes(app)
+    configure_static(app)
 
     return app
 
@@ -32,6 +33,8 @@ def create_app(config=None):
 
 def configure_app(app, config):
     app.config.from_object(config)
+
+    app.static_folder = config.STATIC_FOLDER
 
 
 """
@@ -55,3 +58,32 @@ def configure_extensions(app):
 
 def configure_routes(app):
     add_resources(app)
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+        return response
+
+
+"""
+    Register STATIC paths
+"""
+
+
+def configure_static(app):
+    @app.route('/static/<path:path>')
+    def send_static(path):
+        print(path)
+
+        return send_from_directory('../static/static', path)
+
+    @app.route('/<path:filename>')
+    def send_general(filename):
+        print(filename)
+        return send_from_directory('../static', filename)
+
+    @app.route('/')
+    def send_index():
+        return redirect('/index.html')
